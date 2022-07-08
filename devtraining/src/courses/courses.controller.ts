@@ -1,3 +1,4 @@
+import { CreateCourseDto } from './dto/create-course.dto';
 import {
   Controller,
   Get,
@@ -24,13 +25,13 @@ export class CoursesController {
   }
 
   @Post()
-  create(@Body() body) {
-    return this.courseService.create(body);
+  create(@Body() crateCourseDto: CreateCourseDto) {
+    return this.courseService.create(crateCourseDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.courseService.update(id, body);
+  update(@Param('id') id: string, @Body() crateCourseDto: CreateCourseDto) {
+    return this.courseService.update(id, crateCourseDto);
   }
 
   @Delete(':id')
