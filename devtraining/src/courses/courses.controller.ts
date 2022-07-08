@@ -7,6 +7,8 @@ import {
   HttpCode,
   HttpStatus,
   Res,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 
 @Controller('courses')
@@ -25,5 +27,15 @@ export class CoursesController {
   @HttpCode(HttpStatus.NO_CONTENT)
   create(@Body('name') name: string) {
     return name;
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return `Curso atualizado número #${id}`;
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return `Curso número #${id} removido`;
   }
 }
