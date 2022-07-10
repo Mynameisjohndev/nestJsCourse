@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
+import { Tag } from './tag.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, JoinTable, ManyToMany } from "typeorm";
 import { v4 as uuidV4 } from 'uuid';
 
 @Entity('courses')
@@ -13,8 +14,9 @@ class Course {
   @Column()
   description: string;
   
-  @Column('json', { nullable: true })
-  tags: string[];
+  @JoinTable()
+  @ManyToMany(() => Tag, (tag: Tag) => tag.courses  )
+  tags: string[]
 
   @BeforeInsert()
   genetrateId() {
