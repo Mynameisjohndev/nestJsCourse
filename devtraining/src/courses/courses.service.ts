@@ -17,7 +17,7 @@ export class CourseService {
 
   finOne(id: string) {
     const course = this.courseReporitory.findOne({
-      where:{ "id": +id }
+      where:{ id: id }
     })
     if (!course) {
       throw new NotFoundException(`Course ID ${id} not found`);
@@ -25,14 +25,14 @@ export class CourseService {
     return course;
   }
 
-  create(createCourseDTO: CreateCourseDto) {
-    const course = this.courseReporitory.create(createCourseDTO);
+  async create(createCourseDTO: CreateCourseDto) {
+    const course = await this.courseReporitory.create(createCourseDTO);
     return this.courseReporitory.save(course);
   }
 
   async update(id: string, updateCourseDTO: UpdateCourseDto) {
     const course = await this.courseReporitory.preload({
-      "id": +id,
+      id: id,
       ...updateCourseDTO,
     });
     if(!course){
@@ -43,7 +43,7 @@ export class CourseService {
 
   async delete(id: string) {
     const course = await this.courseReporitory.findOne({
-      where:{ "id": +id }
+      where:{ id: id }
     })
     if (!course) {
       throw new NotFoundException(`Course ID ${id} not found`);
