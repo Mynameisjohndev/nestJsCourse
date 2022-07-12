@@ -30,14 +30,26 @@ export class CourseService {
   }
 
   async create(createCourseDTO: CreateCourseDto) {
-    const course = await this.courseReporitory.create(createCourseDTO);
+    const tags = await Promise.all(
+      createCourseDTO.tags.map(name => this.preloadTagByName(name))
+    );
+    const course = this.courseReporitory.create({
+      ...createCourseDTO,
+      tags,
+    });
     return this.courseReporitory.save(course);
   }
 
   async update(id: string, updateCourseDTO: UpdateCourseDto) {
+    const tags = updateCourseDTO.tags && (
+      await Promise.all(
+        updateCourseDTO.tags.map(name => this.preloadTagByName(name))
+      )
+    )
     const course = await this.courseReporitory.preload({
       id: id,
       ...updateCourseDTO,
+      tags
     });
     if(!course){
       throw new NotFoundException(`Course ID ${id} not found`);
@@ -54,4 +66,16 @@ export class CourseService {
     }
     return this.courseReporitory.remove(course);
   }
+
+  private async preloadTagByName(name: string): Promise<Tag>{
+    const tag = await this.tagReporitory.findOne({where: {name: name}})
+
+    if(tag){
+      return tag;
+    }
+
+    return this.tagReporitory.create({ name: name });
+
+  }
+
 }
