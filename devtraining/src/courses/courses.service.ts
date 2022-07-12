@@ -16,12 +16,15 @@ export class CourseService {
   ){}
 
   finAll() {
-    return this.courseReporitory.find();
+    return this.courseReporitory.find({
+      relations:['tags']
+    });
   }
 
   finOne(id: string) {
     const course = this.courseReporitory.findOne({
-      where:{ id: id }
+      where:{ id: id },
+      relations:['tags']
     })
     if (!course) {
       throw new NotFoundException(`Course ID ${id} not found`);
@@ -59,7 +62,8 @@ export class CourseService {
 
   async delete(id: string) {
     const course = await this.courseReporitory.findOne({
-      where:{ id: id }
+      where:{ id: id },
+      relations:['tags']
     })
     if (!course) {
       throw new NotFoundException(`Course ID ${id} not found`);
