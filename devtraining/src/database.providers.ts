@@ -7,12 +7,12 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'postgres',
-        host: 'localhost',
+        host: 'db',
         port: 5432,
         username: 'postgres',
         password: 'docker',
-        database: 'postgres',
-        synchronize: true,
+        database: 'cursonestjs',
+        synchronize: false,
         entities: [__dirname + '/../**/*.entity.js'],
       });
 
@@ -23,12 +23,12 @@ export const databaseProviders = [
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: 'db',
   port: 5432,
   username: 'postgres',
   password: 'docker',
-  database: 'postgres',
-  synchronize: true,
+  database: 'cursonestjs',
+  synchronize: false,
   entities: [__dirname + '/../**/*.entity.js'],
   migrations: [CourseRefactoring1657725180075]
 });
